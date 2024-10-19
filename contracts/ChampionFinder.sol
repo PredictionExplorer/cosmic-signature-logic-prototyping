@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: CC0-1.0
 pragma solidity 0.8.27;
 
-import "hardhat/console.sol";
+// import "hardhat/console.sol";
 
 /// @notice This prototype finds endurance champion and chrono-warrior.
 /// @dev A test needs to call `bid` 1+ times, and then `endRound`.
@@ -10,12 +10,7 @@ contract ChampionFinder {
 	// #region State
 
 	address public lastBidder;
-
-	/// @dev We will validate that bid timestamps are at least this big.
-	/// We want any timestamp to be positive, which is guaranteed in the production.
-	/// Otherwise the logic would not necessarily work correct.
-	uint256 public lastBidTime = 1;
-
+	uint256 public lastBidTime;
 	address public enduranceChampion;
 	uint256 public enduranceChampionStartTime;
 	uint256 public enduranceChampionDuration;
@@ -56,8 +51,10 @@ contract ChampionFinder {
 				enduranceChampionStartTime = lastBidTime;
 				enduranceChampionDuration = enduranceDuration_;
 			} else if (enduranceDuration_ > enduranceChampionDuration) {
-				uint256 chronoEndTime_ = lastBidTime + enduranceChampionDuration;
-				_updateChronoWarrior(chronoEndTime_);
+				{
+					uint256 chronoEndTime_ = lastBidTime + enduranceChampionDuration;
+					_updateChronoWarrior(chronoEndTime_);
+				}
 				prevEnduranceChampionDuration = enduranceChampionDuration;
 				enduranceChampion = lastBidder;
 				enduranceChampionStartTime = lastBidTime;
@@ -81,8 +78,9 @@ contract ChampionFinder {
 	}
 
 	function _roundBeginResets() private {
-		// It's unnecessary to reset this.
-		// Actually, in our test data this gets reset, so we must reset this too.
+		// We will validate that bid timestamps are at least this big.
+		// We want any timestamp to be positive, which is guaranteed in the production.
+		// Otherwise the logic would not necessarily work correct.
 		lastBidTime = 1;
 
 		enduranceChampion = address(0);

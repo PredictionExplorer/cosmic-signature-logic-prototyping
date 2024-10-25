@@ -4,7 +4,25 @@ require("@nomicfoundation/hardhat-toolbox");
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.27",
+	solidity: {
+		version: "0.8.27",
+
+		settings: {
+			evmVersion: "cancun",
+			viaIR: true,
+			optimizer: {
+				enabled: true,
+				runs: 20000,
+			},
+			outputSelection: {
+				"*": {
+					"*": [
+						"storageLayout"
+					],
+				},
+			},
+		},
+	},
 
 	mocha: {
 		timeout: 60 * 60 * 1000,

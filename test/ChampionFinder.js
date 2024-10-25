@@ -54,7 +54,7 @@ describe("ChampionFinder", function () {
 	it("Deployment", async function () {
 		const { championFinder } = await loadFixture(deployContract);
 
-		// expect(await championFinder.lastBidTime()).to.equal(1n);
+		// expect(await championFinder.lastBidTimeStamp()).to.equal(1n);
 		// expect(await championFinder.prevEnduranceChampionDuration()).to.equal(2n ** 256n - 1n);
 	});
 
@@ -79,7 +79,8 @@ describe("ChampionFinder", function () {
 
 		let counter= 0;
 		for(let roundInfo of testData) {
-			console.log(++ counter );
+			++ counter;
+			console.log(counter);
 
 			for(let bidInfo of roundInfo.bid_times) {
 				// console.log(bidInfo[0]);
@@ -89,25 +90,25 @@ describe("ChampionFinder", function () {
 			expect(await championFinder.endRound(roundInfo.game_end_time)).not.to.be.reverted;
 			// console.log(
 			// 	addressToChar(await championFinder.enduranceChampion()),
-			// 	await championFinder.enduranceChampionStartTime(),
+			// 	await championFinder.enduranceChampionStartTimeStamp(),
 			// 	await championFinder.enduranceChampionDuration()
 			// );
 			// console.log(
 			// 	addressToChar(await championFinder.chronoWarrior()),
-			// 	await championFinder.chronoWarriorStartTime(),
-			// 	await championFinder.chronoWarriorEndTime(),
+			// 	await championFinder.chronoWarriorStartTimeStamp(),
+			// 	await championFinder.chronoWarriorEndTimeStamp(),
 			// 	await championFinder.chronoWarriorDuration()
 			// );
 			const roundResult = roundInfo.result;
 			expect(await championFinder.enduranceChampion()).to.equal(charToAddress(roundResult.endurance_champion.name));
-			expect(await championFinder.enduranceChampionStartTime()).to.equal(roundResult.endurance_champion.endurance_start_time);
+			expect(await championFinder.enduranceChampionStartTimeStamp()).to.equal(roundResult.endurance_champion.endurance_start_time);
 			expect(await championFinder.enduranceChampionDuration()).to.equal(roundResult.endurance_champion.endurance_length);
 			expect(await championFinder.chronoWarrior()).to.equal(charToAddress(roundResult.chrono_warrior.name));
-			expect(await championFinder.chronoWarriorStartTime()).to.equal(roundResult.chrono_warrior.chrono_start_time);
-			expect(await championFinder.chronoWarriorEndTime()).to.equal(roundResult.chrono_warrior.chrono_end_time);
+			expect(await championFinder.chronoWarriorStartTimeStamp()).to.equal(roundResult.chrono_warrior.chrono_start_time);
+			expect(await championFinder.chronoWarriorEndTimeStamp()).to.equal(roundResult.chrono_warrior.chrono_end_time);
 			expect(await championFinder.chronoWarriorDuration()).to.equal(roundResult.chrono_warrior.chrono_length);
 			
-			// if(counter >= 100) break;
+			if(counter >= 1000) break;
 		}
 	});
 });

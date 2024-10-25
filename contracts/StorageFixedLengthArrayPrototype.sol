@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: CC0-1.0
-pragma solidity 0.8.26;
+pragma solidity 0.8.27;
+
+import "hardhat/console.sol";
 
 /// @dev
 /// solc --storage-layout StorageFixedLengthArrayPrototype.sol > StorageFixedLengthArrayPrototype-StorageLayout.json
@@ -14,6 +16,11 @@ contract StorageFixedLengthArrayPrototype {
 		_StakeAction[1 << 160] addressToStakeActionMapping;
 	}
 
+	struct _EthDeposit {
+		uint64 depositId;
+		uint192 rewardAmountPerStakedNft;
+	}
+
 	_StakeAction[] public dynamicArray;
 
 	mapping(uint256 stakeActionId => _StakeAction) public badStakeActions;
@@ -21,6 +28,8 @@ contract StorageFixedLengthArrayPrototype {
 
 	mapping(uint256 roundNum => mapping(address => _StakeAction)) public badTests;
 	_TestStruct[1 << 64] internal _goodTests;
+
+	_EthDeposit[1 << 64] public ethDeposits;
 
 	uint256 public actionCounter;
 
@@ -48,20 +57,49 @@ contract StorageFixedLengthArrayPrototype {
 			stakeActionReference_.test1 = newStakeAction_.test1;
 		}
 
+		// {
+		// 	// This formula gives the compiler a hint to not perform array bounds check.
+		// 	actionCounter = (actionCounter + 1) & ((1 << 64) - 1);
+		
+		// 	_TestStruct storage testStructReference_ = _goodTests[actionCounter];
+		// 	_StakeAction storage stakeActionReference_ =
+		// 		testStructReference_.addressToStakeActionMapping[uint256(uint160(msg.sender))];
+		// 	_StakeAction memory newStakeAction_ = _StakeAction(2123, address(2345), 23);
+		
+		// 	// The compiler forces us to assign every individual fieldd.
+		// 	stakeActionReference_.nftId = newStakeAction_.nftId;
+		// 	stakeActionReference_.nftOwnerAddress = newStakeAction_.nftOwnerAddress;
+		// 	stakeActionReference_.test1 = newStakeAction_.test1;
+		// }
+
 		{
-			// This formula gives the compiler a hint to not perform array bounds check.
-			actionCounter = (actionCounter + 1) & ((1 << 64) - 1);
+			uint256 itemIndex = 987654321;
 
-			_TestStruct storage testStructReference_ = _goodTests[actionCounter];
-			_StakeAction storage stakeActionReference_ =
-				testStructReference_.addressToStakeActionMapping[uint256(uint160(msg.sender))];
-			_StakeAction memory newStakeAction_ = _StakeAction(2123, address(2345), 23);
+			{
+				ethDeposits[itemIndex] = _EthDeposit(98989898, 89898989);
+			}
 
-			// The compiler forces us to assign every individual fieldd.
-			stakeActionReference_.nftId = newStakeAction_.nftId;
-			stakeActionReference_.nftOwnerAddress = newStakeAction_.nftOwnerAddress;
-			stakeActionReference_.test1 = newStakeAction_.test1;
+			{
+				uint256 itemSlotIndex;
+				assembly {
+					itemSlotIndex := ethDeposits.slot
+				}
+				itemSlotIndex += itemIndex;
+				// console.log(itemSlotIndex);
+
+				// // It's impossible to `sload` this.
+				// _EthDeposit memory itemValue;
+
+				// It's only possible to `sload` this.
+				bytes32 itemValue;
+
+				assembly {
+					itemValue := sload(itemSlotIndex)
+				}
+				// console.log(itemValue.depositId, itemValue.rewardAmountPerStakedNft);
+				// console.log(_EthDeposit(itemValue).depositId);
+				console.log(uint256(itemValue));
+			}
 		}
 	}
 }
-

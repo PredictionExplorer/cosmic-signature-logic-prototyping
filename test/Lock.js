@@ -24,7 +24,7 @@ describe("Lock", function () {
     const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
 
     return { lock, unlockTime, lockedAmount, owner, otherAccount };
-  }
+  };
 
   describe("Deployment", function () {
     it("Should set the right unlockTime", async function () {

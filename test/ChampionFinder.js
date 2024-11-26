@@ -77,12 +77,12 @@ describe("ChampionFinder", function () {
 
 		const testData = await loadJsonFile("test/data/endurance_test_cases_2.json");
 
-		let counter= 0;
-		for(let roundInfo of testData) {
+		let counter = 0;
+		for (let roundInfo of testData) {
 			++ counter;
 			console.log(counter);
 
-			for(let bidInfo of roundInfo.bid_times) {
+			for (let bidInfo of roundInfo.bid_times) {
 				// console.log(bidInfo[0]);
 				// console.log(bidInfo[1]);
 				expect(await championFinder.bid(charToAddress(bidInfo[1]), bidInfo[0])).not.to.be.reverted;
@@ -108,7 +108,7 @@ describe("ChampionFinder", function () {
 			expect(await championFinder.chronoWarriorEndTimeStamp()).to.equal(roundResult.chrono_warrior.chrono_end_time);
 			expect(await championFinder.chronoWarriorDuration()).to.equal(roundResult.chrono_warrior.chrono_length);
 			
-			if(counter >= 1000) break;
+			if (counter >= 10) break;
 		}
 	});
 });

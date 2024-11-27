@@ -16,8 +16,8 @@ contract RandomNumberGenerator {
 	}
 
 	function claimPrize1() public {
-		uint256 randomNumber_ = raffleEntropy ^ generateRandomNumber();
-		randomNumber_ = generateAndUseRandomNumber(randomNumber_);
+		uint256 randomNumber_ = raffleEntropy ^ generateInitialRandomNumber();
+		randomNumber_ = generateAndUseRandomNumbers(randomNumber_);
 
 		// At the end, saving the last generated value.
 		// But `claimPrize2` doesn't do it.
@@ -29,11 +29,11 @@ contract RandomNumberGenerator {
 		// It would be helpful if it was possible that multiple transactions executed within the same block
 		// needed to generate random numbers.
 
-		uint256 randomNumber_ = generateRandomNumber();
-		generateAndUseRandomNumber(randomNumber_);
+		uint256 randomNumber_ = generateInitialRandomNumber();
+		generateAndUseRandomNumbers(randomNumber_);
 	}
 
-	function generateAndUseRandomNumber(uint256 randomNumber_) public pure returns(uint256) {
+	function generateAndUseRandomNumbers(uint256 randomNumber_) public pure returns(uint256) {
 		// Generating and using a random number multiple times.
 		// Simply calculating `keccak256` of the previously calculated value.
 		for ( uint256 counter_ = 0; counter_ < 2; ++ counter_ ) {
@@ -45,7 +45,7 @@ contract RandomNumberGenerator {
 		return randomNumber_;
 	}
 
-	function generateRandomNumber() public view returns(uint256) {
+	function generateInitialRandomNumber() public view returns(uint256) {
 		unchecked {
 			// console.log(block.number, block.timestamp);
 			// console.log(block.prevrandao, uint256(blockhash(block.number)), uint256(blockhash(block.number - 1)));

@@ -83,6 +83,7 @@ contract RandomNumberGenerator {
 				// This looks like a better source of randomness.
 				// Although a sophisticated attacker could be able to calculate this from the previous block data.
 				// So this could turn out to be even less random than `block.prevrandao`.
+				// Nevetherless, it could make sense to use this to create another little hurdle for attackers.
 				block.basefee +
 
 				// The production code will not use this.

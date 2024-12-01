@@ -14,17 +14,20 @@ async function deployContract() {
 
 	const RandomNumberGenerator = await hre.ethers.getContractFactory("RandomNumberGenerator");
 	const randomNumberGenerator = await RandomNumberGenerator.deploy();
+	randomNumberGenerator.waitForDeployment();
 
 	return { randomNumberGenerator, /*owner, otherAccount,*/ };
 }
 
 describe("RandomNumberGenerator", function () {
 	it("Test 1", async function () {
-		// const s = hre.ethers.hashMessage((new Date()).getTime().toString());
-		// console.log(s);
-		// const n = BigInt(s);
-		// console.log(n);
-		// console.log();
+		// {
+		// 	const s = hre.ethers.hashMessage(Math.random().toString());
+		// 	console.log(s);
+		// 	const n = BigInt(s);
+		// 	console.log(n);
+		// 	console.log();
+		// }
 
 		const { randomNumberGenerator } = await loadFixture(deployContract);
 

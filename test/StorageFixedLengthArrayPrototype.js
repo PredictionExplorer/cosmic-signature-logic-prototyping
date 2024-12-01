@@ -14,6 +14,7 @@ async function deployContract() {
 
 	const StorageFixedLengthArrayPrototype = await hre.ethers.getContractFactory("StorageFixedLengthArrayPrototype");
 	const storageFixedLengthArrayPrototype = await StorageFixedLengthArrayPrototype.deploy();
+	storageFixedLengthArrayPrototype.waitForDeployment();
 
 	return { storageFixedLengthArrayPrototype, /*owner, otherAccount,*/ };
 }

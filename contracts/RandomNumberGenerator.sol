@@ -99,6 +99,7 @@ contract RandomNumberGenerator {
 	}
 
 	function calculateHashSumOf(uint256 value_) public pure returns(uint256) {
+		// console.log(abi.encodePacked(value_).length, 8787);
 		return uint256(keccak256(abi.encodePacked(value_)));
 	}
 }

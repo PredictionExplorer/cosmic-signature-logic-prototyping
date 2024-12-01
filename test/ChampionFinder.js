@@ -15,6 +15,7 @@ async function deployContract() {
 
 	const ChampionFinder = await hre.ethers.getContractFactory("ChampionFinder");
 	const championFinder = await ChampionFinder.deploy();
+	championFinder.waitForDeployment();
 
 	return { championFinder, /*owner, otherAccount,*/ };
 }

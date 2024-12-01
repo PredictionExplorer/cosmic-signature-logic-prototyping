@@ -55,11 +55,11 @@ contract RandomNumberGenerator {
 			return
 				// The production code will not use this.
 				// This would make no difference for our logic.
-				uint160(tx.origin) +
+				uint256(uint160(tx.origin)) +
 
 				// The production code will not use this.
 				// This would make no difference for our logic.
-				uint160(msg.sender) +
+				uint256(uint160(msg.sender)) +
 
 				// The production code will not use this.
 				// This is zero, but `RandomWalkNFT` uses this.

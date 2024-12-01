@@ -20,6 +20,12 @@ async function deployContract() {
 
 describe("RandomNumberGenerator", function () {
 	it("Test 1", async function () {
+		// const s = hre.ethers.hashMessage((new Date()).getTime().toString());
+		// console.log(s);
+		// const n = BigInt(s);
+		// console.log(n);
+		// console.log();
+
 		const { randomNumberGenerator } = await loadFixture(deployContract);
 
 		await randomNumberGenerator.claimPrize1();

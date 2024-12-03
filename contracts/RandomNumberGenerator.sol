@@ -41,8 +41,19 @@ contract RandomNumberGenerator {
 			console.log(randomNumber_);
 		}
 
+		// A problem with the above approach is that it's potentially possible that the same value will be generated,
+		// and then, no matter how many attempts we make, we will keep generating the same value.
+		// So here is a better approach.
+		uint256 randomNumberSeed_ = randomNumber_;
+		for ( uint256 counter_ = 0; counter_ < 2; ++ counter_ ) {
+			unchecked { ++ randomNumberSeed_; }
+			randomNumber_ = calculateHashSumOf(randomNumberSeed_);
+			console.log(randomNumber_);
+		}
+
 		console.log();
-		return randomNumber_;
+		// return randomNumber_;
+		return randomNumberSeed_;
 	}
 
 	function generateInitialRandomNumber() public view returns(uint256) {

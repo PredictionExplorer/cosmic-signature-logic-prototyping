@@ -15,16 +15,16 @@ contract RandomNumberGenerator {
 		raffleEntropy = 0x4e48fcb2afb4dabb2bc40604dc13d21579f2ce6b3a3f60b8dca0227d0535b31a;
 	}
 
-	function claimPrize1() public {
+	function claimMainPrize1() public {
 		uint256 randomNumber_ = raffleEntropy ^ generateInitialRandomNumber();
 		randomNumber_ = generateAndUseRandomNumbers(randomNumber_);
 
 		// At the end, saving the last generated value.
-		// But `claimPrize2` doesn't do it.
+		// But `claimMainPrize2` doesn't do it.
 		raffleEntropy = randomNumber_;
 	}
 
-	function claimPrize2() public view {
+	function claimMainPrize2() public view {
 		// It's actually unnecessary to store the last generated random number because doing so won't be helpful for our logic.
 		// It would be helpful if it was possible that multiple transactions executed within the same block
 		// needed to generate random numbers.

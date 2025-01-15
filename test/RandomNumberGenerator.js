@@ -31,7 +31,7 @@ describe("RandomNumberGenerator", function () {
 
 		const { randomNumberGenerator } = await loadFixture(deployContract);
 
-		await randomNumberGenerator.claimPrize1();
-		await randomNumberGenerator.claimPrize2();
+		await randomNumberGenerator.claimMainPrize1();
+		await randomNumberGenerator.claimMainPrize2();
 	});
 });

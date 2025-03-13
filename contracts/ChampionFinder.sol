@@ -83,11 +83,12 @@ contract ChampionFinder {
 		}
 
 		assert(chronoWarrior != address(0));
+		assert(int256(chronoWarriorDuration) >= int256(0));
 	}
 
 	function _roundBeginResets() private {
 		// We will validate that bid timestamps are at least this big.
-		// We want any timestamp to be positive, which is guaranteed in the production.
+		// We want any timestamp to be a nonzero, which is guaranteed in the production.
 		// Otherwise the logic would not necessarily work correct.
 		lastBidTimeStamp = 1;
 
